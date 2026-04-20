@@ -88,6 +88,10 @@
   --shadow-soft: 0 4px 20px -8px oklch(0.3 0.05 60 / 0.15);
   --shadow-warm: 0 12px 40px -12px oklch(0.4 0.08 60 / 0.25);
   --shadow-gold: 0 8px 30px -10px oklch(0.62 0.13 65 / 0.4);
+  --shadow-card: 0 1px 2px oklch(0.3 0.05 60 / 0.05), 0 12px 32px -16px oklch(0.35 0.06 60 / 0.18);
+  --shadow-elevated: 0 2px 4px oklch(0.3 0.05 60 / 0.06), 0 24px 60px -20px oklch(0.35 0.08 60 / 0.28);
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
@@ -131,6 +135,107 @@
     height: 1px;
     background: var(--gold-deep);
     vertical-align: middle;
+  }
+
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-elevated { box-shadow: var(--shadow-elevated); }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  .hairline {
+    border-top: 1px solid color-mix(in oklab, var(--gold-deep) 25%, transparent);
+  }
+
+  .price-dots {
+    flex: 1;
+    height: 1px;
+    margin: 0 0.75rem 0.4rem;
+    background-image: radial-gradient(circle, color-mix(in oklab, var(--charcoal) 30%, transparent) 1px, transparent 1.5px);
+    background-size: 6px 2px;
+    background-repeat: repeat-x;
+    background-position: bottom;
+  }
+
+  .grain-overlay {
+    position: relative;
+  }
+  .grain-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(oklch(0.3 0.05 60 / 0.06) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.7s var(--ease-premium) both;
+  }
+  .fade-up-soft {
+    animation: fadeUpSoft 0.9s var(--ease-premium) both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fadeUpSoft {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hover-lift {
+    transition: transform 0.5s var(--ease-premium), box-shadow 0.5s var(--ease-premium);
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .ken-burns {
+    animation: kenBurns 18s ease-in-out infinite alternate;
+  }
+  @keyframes kenBurns {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.08) translate(-1.5%, -1%); }
+  }
+
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      oklch(1 0 0 / 0.18) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.8s var(--ease-premium);
+  }
+  .btn-shine:hover::after {
+    transform: translateX(100%);
   }
 
   .container-prose {
